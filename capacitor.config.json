@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Appchat",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

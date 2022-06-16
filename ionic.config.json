@@ -1,0 +1,8 @@
+{
+  "name": "Appchat",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "f2594298"
+}
