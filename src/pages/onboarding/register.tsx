@@ -56,7 +56,7 @@ const Component = ({history, setSession}) => {
       await validation.validate({email, password, name});
       
       await api.account.create('unique()', email, password, name);
-      const response = await api.account.createSession(email, password);
+      const response = await api.account.createEmailSession(email, password);
       setSession(response);
 
 

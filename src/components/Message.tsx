@@ -9,7 +9,6 @@ interface MessageProps {
 
 const Message: React.FC<MessageProps> = ({ name, message }) => {
   const sdk = useApi();
-  
   return (
     <IonItem>
       <IonThumbnail slot="start">
