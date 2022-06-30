@@ -44,7 +44,9 @@ setupIonicReact();
 const Router = () => (
   <IonReactRouter>
     <Session.Consumer>
-      {({session}) => (
+      {({session}) => {
+        console.log(session)
+      return (
         <>
           <Route path="/onboarding/" component={Onboarding} />
           <Route exact path="/chat" component={Chat} />
@@ -54,6 +56,7 @@ const Router = () => (
           </Route>        
         </>
       )}
+      }
     </Session.Consumer>
 </IonReactRouter>
 
@@ -66,9 +69,8 @@ const App: React.FC = () => {
   React.useEffect(() => {
     const loadSession = async () => {
       await Datastore.init();
-  
+      
       const _session = await Datastore.get('session') || await api.account.get();
-  
       setSession(_session);
     };
 
@@ -84,7 +86,7 @@ const App: React.FC = () => {
     <Provider>
       <IonApp>
         <Session.Provider value={{session, setSession}}>
-          <Router />
+          {session && <Router />}
         </Session.Provider>
       </IonApp>
     </Provider>

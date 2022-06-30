@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonButton, IonItem, IonInput, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonButton, IonItem, IonInput, IonGrid, IonRow, IonCol, IonButtons } from '@ionic/react';
 import Message from '../../components/Message';
 import './styles.css';
 
 import {useApi} from '../../providers/api';
+
 
 const MSG_ID = '629a1c77e7581b2f7087';
 
@@ -19,7 +20,7 @@ const _Buffer = ({messages, lastRef}) => (
 
 const Buffer = React.memo(_Buffer);
 
-const Component = ({setSession}) => {
+const Component = ({session, setSession}) => {
   let [user, setUser] = React.useState<string>(null);
   let [messages, setMessages] = React.useState([]);
   let api = useApi();
@@ -30,6 +31,17 @@ const Component = ({setSession}) => {
   
       setUser(user.name);
     } catch (_) {
+      setSession(null);
+    }
+  }
+
+  const logout = async () => {
+    try {
+      await api.account.deleteSession(session);
+      setUser(null);
+      setSession(null);
+    } catch (_) {
+      setUser(null);
       setSession(null);
     }
   }
@@ -49,10 +61,10 @@ const Component = ({setSession}) => {
       console.log(err);
     }
   }
-
-  api.subscribe(`collections.${MSG_ID}.documents`, res => {
+  
+  api.client.subscribe(`databases.default.collections.${MSG_ID}.documents`, res => {
     const {name, message} = (res.payload as {name: string, message: string});
-
+    console.log(res)
     setMessages([
       ...messages,
       {
@@ -99,6 +111,9 @@ const Component = ({setSession}) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>TessaTalk</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={logout}>Log Out</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

@@ -51,7 +51,7 @@ const Component = ({history, setSession}) => {
     try {
       await validation.validate({email, password});
       
-      const response = await api.account.createSession(email, password);
+      const response = await api.account.createEmailSession(email, password);
       await setSession(response);
 
       history.push('/chat');
